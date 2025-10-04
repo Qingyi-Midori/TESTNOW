@@ -1,11 +1,24 @@
-/* ========== 导航栏 ========== */
+/* ========== 导航栏 (固定在顶部，铺满宽度) ========== */
 header {
   background: #2c3e50;
   padding: 16px 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 1000;
+  transition: transform 0.3s ease; /* 平滑过渡 */
+}
+
+/* 隐藏状态：整体往上移出视口 */
+header.hide {
+  transform: translateY(-100%);
+}
+
+/* 给正文留出空间，避免被遮挡 */
+body {
+  padding-top: 70px; /* 根据 header 高度调整 */
 }
 
 nav ul {

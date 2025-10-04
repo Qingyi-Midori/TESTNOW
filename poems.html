@@ -37,7 +37,22 @@
     // 加载导航栏
     fetch("header.html")
       .then(res => res.text())
-      .then(html => document.getElementById("header").innerHTML = html);
+      .then(html => {
+        document.getElementById("header").innerHTML = html;
+
+        // 智能隐藏逻辑
+        let lastScrollY = window.scrollY;
+        const header = document.querySelector("header");
+
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > lastScrollY) {
+            header.classList.add("hide");
+          } else {
+            header.classList.remove("hide");
+          }
+          lastScrollY = window.scrollY;
+        });
+      });
 
     // 加载个人卡片
     fetch("sidebar.html")
@@ -127,6 +142,7 @@
       renderPoems(allPoems);
     }
 
+    // 初始化页脚
     (function initFooter() {
       const lastWillEl = document.createElement("div");
       lastWillEl.className = "last-will-text";
@@ -134,17 +150,19 @@
       footerContainer.appendChild(lastWillEl);
     })();
 
+    // 加载诗集
     fetch("poems.txt")
       .then(res => res.text())
       .then(text => {
         parseAndStorePoems(text);
-        sortPoems("desc");
+        sortPoems("desc"); // 默认倒序
       })
       .catch(error => {
         console.error("Error fetching poems:", error);
         poemsContainer.innerHTML = "<p>诗集加载失败，请检查 poems.txt 文件是否存在。</p>";
       });
 
+    // 绑定按钮
     sortAscBtn.addEventListener("click", () => sortPoems("asc"));
     sortDescBtn.addEventListener("click", () => sortPoems("desc"));
   </script>

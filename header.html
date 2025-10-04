@@ -7,3 +7,20 @@
     </ul>
   </nav>
 </header>
+
+<script>
+  // 智能隐藏导航栏
+  let lastScrollY = window.scrollY;
+  const header = document.querySelector("header");
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > lastScrollY) {
+      // 向下滚动 → 隐藏
+      header.classList.add("hide");
+    } else {
+      // 向上滚动 → 显示
+      header.classList.remove("hide");
+    }
+    lastScrollY = window.scrollY;
+  });
+</script>
