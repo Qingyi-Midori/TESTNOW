@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+
+  <meta charset="UTF-8">
+  <title>清依的博客</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+
+<link rel="stylesheet" href="css/poems.css">
+</head>
+<body>
+  <header>
+  <nav>
+    <ul>
+      <li><a href="index.html">🏠 首页</a></li>
+      <li><a href="models.html">🧩 模型</a></li>
+      <li><a href="poems.html">📖 诗集</a></li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  // 智能隐藏导航栏
+  let lastScrollY = window.scrollY;
+  const header = document.querySelector("header");
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > lastScrollY) {
+      // 向下滚动 → 隐藏
+      header.classList.add("hide");
+    } else {
+      // 向上滚动 → 显示
+      header.classList.remove("hide");
+    }
+    lastScrollY = window.scrollY;
+  });
+</script>
+
+  <div class="layout">
+    <aside class="profile-card">
+  <img src="https://qingyi-files.oss-cn-chengdu.aliyuncs.com/IMG/ca3d73cb40e2f313ecc2f3a4d7670088490518248%20%281%29.png" 
+       alt="我的头像" class="avatar">
+  <h2>绿清依</h2>
+  <p>诗歌爱好者 | 建模学习中</p>
+  <p>记录我的思考与创作</p>
+</aside>
+    <main class="content">
+      <h1>我的诗集</h1>
+<div class="sort-controls">
+  <button id="sort-desc-btn">按日期倒序 (最新在前)</button>
+  <button id="sort-asc-btn">按日期正序 (最早在前)</button>
+</div>
+<div class="poem-list">
+  <section id="poems" class="grid"></section>
+</div>
+<footer class="poem-footer"></footer>
+
+    </main>
+    <div></div>
+  </div>
+  <script src="js/common.js"></script>
+  <script src="js/poems.js"></script>
+</body>
+</html>
