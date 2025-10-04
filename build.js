@@ -7,7 +7,8 @@ if (!fs.existsSync(distDir)) fs.mkdirSync(distDir);
 
 // 复制目录函数
 function copyDir(src, dest) {
-  if (!fs.existsSync(dest)) fs.mkdirSync(dest);
+  if (!fs.existsSync(src)) return;
+  if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
   fs.readdirSync(src).forEach(file => {
     const srcPath = path.join(src, file);
     const destPath = path.join(dest, file);
@@ -22,9 +23,7 @@ function copyDir(src, dest) {
 // 复制静态资源
 copyDir("css", path.join(distDir, "css"));
 copyDir("js", path.join(distDir, "js"));
-if (fs.existsSync("poems.txt")) {
-  fs.copyFileSync("poems.txt", path.join(distDir, "poems.txt"));
-}
+copyDir("data", path.join(distDir, "data")); // ✅ 新增：复制 data 文件夹
 
 // 读取公共区块
 const header = fs.readFileSync("header.html", "utf-8");
