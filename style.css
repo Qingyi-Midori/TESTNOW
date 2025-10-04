@@ -2,3 +2,29 @@
 body {
   font-family: sans-serif;
 }
+/* 左侧卡片 */
+.profile-card {
+  position: fixed;       /* 固定在页面 */
+  top: 20px;             /* 距离顶部 20px */
+  left: 20px;            /* 距离左边 20px */
+  width: 200px;          /* 卡片宽度 */
+  padding: 15px;
+  background: #f9f9f9;   /* 背景色 */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* 头像样式 */
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;    /* 圆形头像 */
+  margin-bottom: 10px;
+}
+
+/* 右侧内容区 */
+.content {
+  margin-left: 250px;    /* 给左边卡片留空间 */
+  padding: 20px;
+}
