@@ -1,0 +1,5 @@
+/* ========== 模型卡片专用 ========== */
+.model-card {
+  border-left: 4px solid var(--primary-color);
+  padding-left: 12px;
+}

@@ -2,27 +2,151 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>诗歌 - 清依的博客</title>
-  <link rel="stylesheet" href="style.css">
+  <title>清依的博客 - 诗集</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/poems.css">
+  <!-- Masonry.js CDN -->
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 </head>
 <body>
-  <header>
-    <h1>诗歌</h1>
-    <nav>
-      <a href="index.html">首页</a> |
-      <a href="models.html">建模笔记</a>
-    </nav>
-  </header>
+  <!-- 动态加载导航栏 -->
+  <div id="header"></div>
 
-  <main>
-    <article>
-      <h2>第一首诗</h2>
-      <p>在这里写下你的诗句……</p>
-    </article>
-  </main>
+  <div class="layout">
+    <!-- 动态加载个人卡片 -->
+    <div id="sidebar"></div>
 
-  <footer>
-    <p>版本 v0.1a | 返回 <a href="index.html">首页</a></p>
-  </footer>
+    <main class="content">
+      <h1>我的诗集</h1>
+      <div class="sort-controls">
+        <button id="sort-desc-btn">按日期倒序 (最新在前)</button>
+        <button id="sort-asc-btn">按日期正序 (最早在前)</button>
+      </div>
+      <div class="poem-list">
+        <section id="poems" class="grid"></section>
+      </div>
+      <footer class="poem-footer"></footer>
+    </main>
+
+    <div></div>
+  </div>
+
+  <script>
+    // 加载导航栏
+    fetch("header.html")
+      .then(res => res.text())
+      .then(html => document.getElementById("header").innerHTML = html);
+
+    // 加载个人卡片
+    fetch("sidebar.html")
+      .then(res => res.text())
+      .then(html => document.getElementById("sidebar").innerHTML = html);
+
+    // 诗集逻辑
+    const poemsContainer = document.getElementById("poems");
+    const footerContainer = document.querySelector(".poem-footer");
+    const sortAscBtn = document.getElementById("sort-asc-btn");
+    const sortDescBtn = document.getElementById("sort-desc-btn");
+
+    let allPoems = [];
+    let msnry = null;
+
+    function initMasonry() {
+      if (msnry) {
+        msnry.destroy();
+        msnry = null;
+      }
+      msnry = new Masonry(poemsContainer, {
+        itemSelector: '.grid-item',
+        columnWidth: '.grid-item',
+        percentPosition: true,
+        gutter: 20
+      });
+    }
+
+    function renderPoems(poemsToRender) {
+      poemsContainer.innerHTML = "";
+      poemsToRender.forEach(poem => {
+        const card = document.createElement("div");
+        card.className = "poem-card card grid-item";
+        const dateHtml = poem.dateStr ? `<span class="date">${poem.dateStr}</span>` : '';
+        const formattedPoemText = poem.text.replace(/\n/g, "<br>");
+        card.innerHTML = `<p>${formattedPoemText}</p>${dateHtml}`;
+        poemsContainer.appendChild(card);
+      });
+      initMasonry();
+    }
+
+    function parseAndStorePoems(text) {
+      const poems = text.split("---");
+      const dateRegex = /(\r?\n|^)——\s*(\d{4}(?:\.\d{1,2}(?:\.\d{1,2})?)?)\s*$/m;
+
+      allPoems = poems
+        .map((p, index) => {
+          const poemText = p.trim();
+          if (!poemText) return null;
+
+          let processedText = poemText;
+          let dateStr = null;
+          let dateObj = null;
+
+          const match = processedText.match(dateRegex);
+          if (match) {
+            dateStr = match[2];
+            if (!/^\d{4}$/.test(dateStr)) {
+              const parsableDateStr = dateStr.replace(/\./g, "-");
+              const d = new Date(parsableDateStr);
+              if (!isNaN(d.getTime())) {
+                dateObj = d;
+              }
+            }
+            processedText = processedText.replace(dateRegex, "").trim();
+          }
+
+          return {
+            text: processedText,
+            dateStr,
+            dateObj,
+            originalIndex: index
+          };
+        })
+        .filter(Boolean);
+    }
+
+    function sortPoems(order = "desc") {
+      allPoems.sort((a, b) => {
+        if (a.dateObj && b.dateObj) {
+          return order === "asc" ? a.dateObj - b.dateObj : b.dateObj - a.dateObj;
+        }
+        if (a.dateObj && !b.dateObj) return -1;
+        if (!a.dateObj && b.dateObj) return 1;
+        return a.originalIndex - b.originalIndex;
+      });
+      renderPoems(allPoems);
+    }
+
+    (function initFooter() {
+      const lastWillEl = document.createElement("div");
+      lastWillEl.className = "last-will-text";
+      lastWillEl.innerHTML = "诞于星<br>归于尘";
+      footerContainer.appendChild(lastWillEl);
+    })();
+
+    fetch("poems.txt")
+      .then(res => res.text())
+      .then(text => {
+        parseAndStorePoems(text);
+        sortPoems("desc");
+      })
+      .catch(error => {
+        console.error("Error fetching poems:", error);
+        poemsContainer.innerHTML = "<p>诗集加载失败，请检查 poems.txt 文件是否存在。</p>";
+      });
+
+    sortAscBtn.addEventListener("click", () => sortPoems("asc"));
+    sortDescBtn.addEventListener("click", () => sortPoems("desc"));
+  </script>
 </body>
 </html>

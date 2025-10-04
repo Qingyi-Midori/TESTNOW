@@ -1,0 +1,70 @@
+/* ========== Masonry 容器和子项 ========== */
+.grid {
+  margin: 0 auto;
+}
+
+.grid-item {
+  width: 300px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .grid-item {
+    width: 100%;
+  }
+}
+
+/* ========== 诗集卡片 ========== */
+.poem-card {
+  position: relative;
+  padding-bottom: 30px;
+}
+
+.poem-card p {
+  margin-bottom: 10px;
+}
+
+.poem-card span.date {
+  display: block;
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+  font-size: 0.9em;
+  color: #888;
+  font-style: italic;
+}
+
+/* 页脚文字 */
+.last-will-text {
+  font-size: 1.6em;
+  font-weight: bold;
+  font-style: italic;
+  color: #222831;
+  line-height: 1.8;
+}
+
+/* 排序按钮 */
+.sort-controls {
+  text-align: right;
+  margin: 0 40px 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.sort-controls button {
+  background: #fff;
+  border: 1px solid #ddd;
+  color: var(--text-color);
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+  transition: all 0.2s;
+}
+
+.sort-controls button:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}

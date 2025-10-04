@@ -1,0 +1,23 @@
+/* ========== 全局基础样式 & 变量 ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #27ae60;
+  --text-color: #2c3e50;
+  --bg-color: #f9f9f9;
+  --card-radius: 8px;
+}
+
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

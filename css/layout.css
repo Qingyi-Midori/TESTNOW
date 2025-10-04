@@ -1,0 +1,61 @@
+/* ========== 导航栏 ========== */
+header {
+  background: #2c3e50;
+  padding: 16px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  font-size: 18px;
+  transition: color 0.2s;
+}
+
+nav a:hover {
+  color: var(--primary-color);
+}
+
+/* ========== 页面三栏布局 ========== */
+.layout {
+  display: grid;
+  grid-template-columns: 320px 1fr 320px;
+  gap: 32px;
+  max-width: 1440px;
+  margin: 40px auto;
+  padding: 0 24px;
+  width: 100%;
+  flex: 1;
+}
+
+@media (max-width: 1200px) {
+  .layout {
+    grid-template-columns: 300px 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 20px auto;
+    padding: 0 16px;
+  }
+  .content {
+    grid-column: 1 / -1;
+    padding: 24px 16px;
+    min-height: auto;
+  }
+}
