@@ -1,46 +1,139 @@
 /* ========== Masonry 容器和子项 ========== */
 .grid {
-  margin: 0 auto;
+  position: relative;
+  width: 100%;
+  min-height: 60vh; /* 防止初始塌陷 */
+}
+
+/* Masonry 子项：绝对定位，由 JS 布局 */
+.grid-item {
+  position: absolute;
+  margin-bottom: 20px;
+  transition: transform 0.2s ease, left 0.2s ease, top 0.2s ease;
 }
 
 .grid-item {
-  width: 300px;
+  position: absolute;
   margin-bottom: 20px;
+  transition: transform 0.2s ease, left 0.2s ease, top 0.2s ease;
 }
 
-@media (max-width: 768px) {
-  .grid-item {
-    width: 100%;
-  }
-}
-
-/* ========== 诗集卡片 ========== */
 .poem-card {
-  position: relative;
-  padding-bottom: 30px;
+  box-sizing: border-box;
+  width: 100%;            /* 宽度占满 grid-item */
+  padding: 20px 20px 50px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  word-break: break-word;
 }
 
-.poem-card p {
+.poem-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.poem-content {
+  line-height: 1.8;
+  color: var(--text-color);
   margin-bottom: 10px;
+  white-space: pre-line; /* 保留换行 */
+}
+
+.poem-card span.date,
+.poem-card span.poem-number {
+  display: block;
+  position: absolute;
+  bottom: 14px;
+  font-size: 0.85em;
+  font-style: italic;
 }
 
 .poem-card span.date {
+  right: 16px;
+  color: #888;
+}
+
+.poem-card span.poem-number {
+  left: 16px;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.sort-controls {
+  text-align: right;
+  margin: 0 40px 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.sort-controls button {
+  background: #fff;
+  border: 1px solid #ddd;
+  color: var(--text-color);
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+  transition: all 0.2s;
+}
+
+.sort-controls button:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+.sort-controls button:active {
+  transform: scale(0.95);
+}
+
+
+/* 诗卡视觉样式 */
+.poem-card {
+  box-sizing: border-box;
+  width: 100%;            /* 宽度占满 grid-item */
+  padding: 20px 20px 50px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  word-break: break-word;
+}
+
+.poem-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.poem-content {
+  line-height: 1.8;
+  color: var(--text-color);
+  margin-bottom: 10px;
+  white-space: pre-line; /* 保留换行 */
+}
+
+/* 底部标签 */
+.poem-card span.date,
+.poem-card span.poem-number {
   display: block;
   position: absolute;
-  bottom: 10px;
-  right: 15px;
-  font-size: 0.9em;
-  color: #888;
+  bottom: 14px;
+  font-size: 0.85em;
   font-style: italic;
 }
 
-/* 页脚文字 */
-.last-will-text {
-  font-size: 1.6em;
-  font-weight: bold;
-  font-style: italic;
-  color: #222831;
-  line-height: 1.8;
+.poem-card span.date {
+  right: 16px;
+  color: #888;
+}
+
+.poem-card span.poem-number {
+  left: 16px;
+  color: var(--primary-color);
+  font-weight: 600;
 }
 
 /* 排序按钮 */
@@ -68,3 +161,24 @@
   border-color: var(--primary-color);
   color: white;
 }
+
+.sort-controls button:active {
+  transform: scale(0.95);
+}
+
+/* 响应式：JS 会算列数，这里只微调 */
+@media (max-width: 768px) {
+  .poem-card {
+    padding: 16px 16px 45px;
+  }
+  .sort-controls {
+    margin: 0 20px 15px;
+  }
+  .sort-controls button {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+}
+
+/* 可用于隐藏编号 */
+.hidden { display: none !important; }

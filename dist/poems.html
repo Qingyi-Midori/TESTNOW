@@ -49,12 +49,24 @@
     <main class="content">
       <h1>我的诗集</h1>
 <div class="sort-controls">
-  <button id="sort-desc-btn">按日期倒序 (最新在前)</button>
-  <button id="sort-asc-btn">按日期正序 (最早在前)</button>
+  <button id="sort-asc-btn">按日期正序</button>
+  <button id="sort-desc-btn">按日期倒序</button>
+
+  <label for="column-select">列数：</label>
+  <select id="column-select">
+    <option value="auto">自动</option>
+    <option value="1">1栏</option>
+    <option value="2">2栏</option>
+    <option value="3">3栏</option>
+  </select>
+  
+  <label for="toggle-numbers">
+    <input type="checkbox" id="toggle-numbers" checked>
+    显示编号
+  </label>
 </div>
-<div class="poem-list">
-  <section id="poems" class="grid"></section>
-</div>
+
+<div id="poems" class="grid"></div>
 <footer class="poem-footer"></footer>
 
     </main>
