@@ -37,7 +37,7 @@ const headCommon = `
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
 
-  <!-- favicon -->
+  <!--  favicon  -->
   <link rel="icon" type="image/png" sizes="96x96" href="/TESTNOW/assets/favicons/favicon-96x96.png">
   <link rel="icon" type="image/svg+xml" href="/TESTNOW/assets/favicons/favicon.svg">
   <link rel="shortcut icon" href="/TESTNOW/assets/favicons/favicon.ico">
