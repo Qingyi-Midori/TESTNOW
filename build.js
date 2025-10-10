@@ -1,9 +1,9 @@
-const fs = require("fs");
+const fs   = require("fs");
 const path = require("path");
 
 // 确保 dist 目录存在
 const distDir = path.join(__dirname, "dist");
-if (!fs.existsSync(distDir)) fs.mkdirSync(distDir);
+if (!fs.existsSync(distDir)) fs.mkdirSync(distDir, { recursive: true });
 
 // 复制目录函数
 function copyDir(src, dest) {
@@ -22,42 +22,47 @@ function copyDir(src, dest) {
 
 // 复制静态资源
 copyDir("css", path.join(distDir, "css"));
-copyDir("js", path.join(distDir, "js"));
-copyDir("data", path.join(distDir, "data")); // ✅ 新增：复制 data 文件夹
+copyDir("js",  path.join(distDir, "js"));
+copyDir("data", path.join(distDir, "data"));
 
 // 读取公共区块
-const header = fs.readFileSync("header.html", "utf-8");
+const header  = fs.readFileSync("header.html", "utf-8");
 const sidebar = fs.readFileSync("sidebar.html", "utf-8");
 
-// 公共 head 部分
+// 把 favicon 标签直接写进 headCommon（路径用 /assets/favicons/...）
 const headCommon = `
   <meta charset="UTF-8">
   <title>清依的博客</title>
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
+
+  <!-- favicon -->
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicons/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicons/favicon.svg">
+  <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-title" content="QingyiMidoriBlog">
+  <link rel="manifest" href="/assets/favicons/site.webmanifest">
 `;
 
-// 遍历所有 *.content.html 文件
+// 遍历所有 *.content.html
 fs.readdirSync(__dirname)
   .filter(file => file.endsWith(".content.html"))
   .forEach(file => {
-    const content = fs.readFileSync(file, "utf-8");
+    const content    = fs.readFileSync(file, "utf-8");
     const outputFile = file.replace(".content.html", ".html");
-    const pageName = outputFile.replace(".html", "");
+    const pageName   = outputFile.replace(".html", "");
 
-    // 每个页面单独的样式文件
     const pageCss = fs.existsSync(`css/${pageName}.css`)
       ? `<link rel="stylesheet" href="css/${pageName}.css">`
       : "";
 
-    // poems 页面需要额外的 JS
     const extraJs = outputFile === "poems.html"
       ? '<script src="js/poems.js"></script>'
       : "";
 
-    const html = `
-<!DOCTYPE html>
+    const html = `<!DOCTYPE html>
 <html lang="zh">
 <head>
 ${headCommon}
@@ -67,17 +72,24 @@ ${pageCss}
   ${header}
   <div class="layout">
     ${sidebar}
-    <main class="content">
-      ${content}
-    </main>
+    <main class="content">${content}</main>
     <div></div>
   </div>
-  <script src="js/common.js"></script>
-  ${extraJs}
+  <script src="js/common.js"></script>${extraJs}
 </body>
-</html>
-    `;
+</html>`;
 
     fs.writeFileSync(path.join(distDir, outputFile), html.trim());
     console.log(`✅ 已生成: ${outputFile}`);
   });
+
+// 复制 favicon 资源
+const favSrc  = path.join(__dirname, "assets", "favicons");
+const favDest = path.join(distDir, "assets", "favicons");
+if (fs.existsSync(favSrc)) {
+  if (!fs.existsSync(favDest)) fs.mkdirSync(favDest, { recursive: true });
+  copyDir(favSrc, favDest);
+  console.log("✅ favicons copied");
+} else {
+  console.warn("⚠️ 未发现 assets/favicons，请先放图标文件");
+}
