@@ -29,7 +29,6 @@ copyDir("data", path.join(distDir, "data"));
 const header  = fs.readFileSync("header.html", "utf-8");
 const sidebar = fs.readFileSync("sidebar.html", "utf-8");
 
-// 把 favicon 标签直接写进 headCommon（路径用 /assets/favicons/...）
 const headCommon = `
   <meta charset="UTF-8">
   <title>清依的博客</title>
@@ -38,12 +37,12 @@ const headCommon = `
   <link rel="stylesheet" href="css/components.css">
 
   <!--  favicon  -->
-  <link rel="icon" type="image/png" sizes="96x96" href="/TESTNOW/assets/favicons/favicon-96x96.png">
-  <link rel="icon" type="image/svg+xml" href="/TESTNOW/assets/favicons/favicon.svg">
-  <link rel="shortcut icon" href="/TESTNOW/assets/favicons/favicon.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="/TESTNOW/assets/favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicons/favicon-96x96.png?v=20250601">
+  <link rel="icon" type="image/svg+xml" href="assets/favicons/favicon.svg?v=20250601">
+  <link rel="shortcut icon" href="assets/favicons/favicon.ico?v=20250601">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png?v=20250601">
   <meta name="apple-mobile-web-app-title" content="QingyiMidoriBlog">
-  <link rel="manifest" href="/TESTNOW/assets/favicons/site.webmanifest">
+  <link rel="manifest" href="assets/favicons/site.webmanifest?v=20250601">
 `;
 
 // 遍历所有 *.content.html
